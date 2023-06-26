@@ -171,13 +171,21 @@ Errors Link::Load(ElementPtr _sdf, const ParserConfig &_config)
     {
       sdf::ElementPtr inertiaElem = inertialElem->GetElement("inertia");
 
-      xxyyzz.X(inertiaElem->Get<double>("ixx", 1.0).first);
-      xxyyzz.Y(inertiaElem->Get<double>("iyy", 1.0).first);
-      xxyyzz.Z(inertiaElem->Get<double>("izz", 1.0).first);
+      if (inertiaElem->Get<bool>("auto"))
+      {
+        std::cout << "Auto is set to true" << std::endl;
+      }
+      else
+      {
+        std::cout << "Auto is not set to true" << std::endl;
+        xxyyzz.X(inertiaElem->Get<double>("ixx", 1.0).first);
+        xxyyzz.Y(inertiaElem->Get<double>("iyy", 1.0).first);
+        xxyyzz.Z(inertiaElem->Get<double>("izz", 1.0).first);
 
-      xyxzyz.X(inertiaElem->Get<double>("ixy", 0.0).first);
-      xyxzyz.Y(inertiaElem->Get<double>("ixz", 0.0).first);
-      xyxzyz.Z(inertiaElem->Get<double>("iyz", 0.0).first);
+        xyxzyz.X(inertiaElem->Get<double>("ixy", 0.0).first);
+        xyxzyz.Y(inertiaElem->Get<double>("ixz", 0.0).first);
+        xyxzyz.Z(inertiaElem->Get<double>("iyz", 0.0).first);
+      }
     }
 
     if (inertialElem->HasElement("fluid_added_mass"))
